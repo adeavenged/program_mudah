@@ -52,7 +52,7 @@ $string = "<?php
 					<tr>
 						<td><label class='w3-label'>".$pk."</label></td>
 						<td>:</td>
-						<td><input type='text' name='id' class='w3-input' placeholder='kode_kelompok' value='\"?><?php echo isset(\$c['".$pk."']) ? \$c['".$pk."'] : '';?><?php echo\"'\"?> <?php echo isset(\$c['".$pk."']) ? ' readonly' : ' ';?><?php echo\" required>
+						<td><input type='text' name='id' class='w3-input' placeholder='".$pk."' value='\"?><?php echo isset(\$c['".$pk."']) ? \$c['".$pk."'] : '';?><?php echo\"'\"?> <?php echo isset(\$c['".$pk."']) ? ' readonly' : ' ';?><?php echo\" required>
 						</td>
 						
 					</tr>";
@@ -117,7 +117,7 @@ $string = "<?php
 										<option value=''>- Pilih -</option>";
 										foreach ($non_pk as $row) {
 											# code...
-											$string .= "\n\t\t\t\t\t\t\t\t\t\t<option value='".$row['column_name']."'>".$row['column_name']."</option>";
+											$string .= "\n\t\t\t\t\t\t\t\t\t\t<option value='".$row['column_name']."'>".strtoupper(label($row['column_name']))."</option>";
 										}
 									$string .="</select>
 								</div>
@@ -144,7 +144,7 @@ $string = "<?php
 					//membuat header table	
 					foreach ($non_pk as $row) {
 						# code...
-						$string .= "\n\t\t\t\t\t\t<th>" . $row['column_name'] . "</th>";
+						$string .= "\n\t\t\t\t\t\t<th>" . strtoupper(label($row['column_name'])) . "</th>";
 					}
 					
 					$string .= "\n\t\t\t\t\t\t<th>Aksi</th>

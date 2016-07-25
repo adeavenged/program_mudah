@@ -3,6 +3,8 @@
 $string = "<?php
 	session_start();
 	include\"../../lib/conn.php\";
+	include\"../../lib/all_function.php\";
+
 
 	if(!isset(\$_SESSION['login_user'])){
 		header('location: ../../login.php'); // Mengarahkan ke Home Page
@@ -21,19 +23,20 @@ $string = "<?php
 
 	if(\$mod == \"".$mod."\" AND \$act == \"simpan\")
 	{
-		mysql_query(\"INSERT INTO ".$nama_table."(";
-									$arr = array();
-									foreach ($non_pk as $row) {
-										$arr[] = $row['column_name'];
-									}
-									$string .= implode(", ", $arr);
+		//variable input
+		\$".$pk." = trim(\$_POST['id']);";
+		$arr = array();
+		$arr2 = array();
+		foreach ($non_pk as $row) {
+			$arr[] = "\n\t\t\t\t\t\t\t\t\t\t".$row['column_name'];
+			$arr2[] = "\n\t\t\t\t\t\t\t\t\t\t'\$".$row['column_name']."'";
+			$string .= "\n\t\t\$".$row['column_name']."= anti_inject(\$_POST['".$row['column_name']."']);";
+		}
 
+		$string .="\n\n\t\tmysql_query(\"INSERT INTO ".$nama_table."(".$pk.", ";
+									$string .= implode(", ", $arr);
 									$string .=")
-									VALUES (";
-									$arr2 = array();
-									foreach ($non_pk as $row) {
-										$arr2[] = "'\$_POST[".$row['column_name']."]'";
-									}
+									VALUES (\$".$pk.", ";
 									$string .= implode(", ", $arr2);
 									$string .=")\") or die(mysql_error());
 		flash('example_message', '<p>Berhasil menambah data biaya.</p>' );
@@ -45,13 +48,18 @@ $string = "<?php
 
 	elseif (\$mod == \"".$mod."\" AND \$act == \"edit\") 
 	{
-		mysql_query(\"UPDATE ".$nama_table." SET ";
-						$arr3 = array();
-						foreach ($non_pk as $row) {
-							$arr3[] = $row['column_name']."= '\$_POST[".$row['column_name']."]'";
-						}
+		//variable input
+		\$".$pk." = trim(\$_POST['id']);";
+		$arr3 = array();
+		foreach ($non_pk as $row) {
+			$arr3[] = "\n\t\t\t\t\t\t\t\t\t\t".$row['column_name']."= '\$".$row['column_name']."'";
+			$string .= "\n\t\t\$".$row['column_name']."= anti_inject(\$_POST['".$row['column_name']."']);";
+		}
+
+		$string .= "\n\n\t\tmysql_query(\"UPDATE ".$nama_table." SET ";
 						$string .= implode(", ", $arr3);
-					$string .= " WHERE ".$pk." = '\$_POST[id]'\") or die(mysql_error());
+					$string .= " 
+					WHERE ".$pk." = '\$_POST[id]'\") or die(mysql_error());
 
 		flash('example_message', '<p>Berhasil mengubah data biaya.</p>');
 
