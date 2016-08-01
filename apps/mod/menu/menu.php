@@ -97,7 +97,6 @@
 									<select name='field' class='w3-select w3-padding'>
 										<option value=''>- Pilih -</option>
 										<option value='nama_menu'>Nama Menu</option>
-										<option value='link_menu'>Link Menu</option>
 										<option value='posisi'>Posisi</option></select>
 								</div>
 								<div class='w3-col s4'>
