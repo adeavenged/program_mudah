@@ -22,7 +22,7 @@
 		$act = "";
 	}
 
-	$aksi = "modul/user/act_user.php";
+	$aksi = "mod/user/act_user.php";
 
 	switch ($act) {
 		case 'form':
